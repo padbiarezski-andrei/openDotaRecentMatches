@@ -5,19 +5,20 @@ import (
 	"net/http"
 )
 
-var players map[string]*player  // slice of tracking players
-var matches map[string][]*match // slice of tracking matches
+var players map[string]*player
+var matches map[string][]*match
 
 func deInit() int {
-	defer playersWriteJSONToFile()
+	defer writePlayersToFile()
 	return 0
 }
 func init() {
 
 	f("init")
+
 	players = make(map[string]*player)
 	matches = make(map[string][]*match)
-	playersLoadJSONFromFile()
+	loadPlayersFromFile()
 }
 
 func main() {

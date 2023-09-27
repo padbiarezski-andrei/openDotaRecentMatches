@@ -10,8 +10,16 @@ import (
 	"unicode"
 )
 
-const playersJSONPPath = "./test/players.json"
-const keyAPI = ""
+const playersJSONPPath = "players.json"
+
+var keyAPI = "secret"
+
+func init() {
+	keyF, err := os.ReadFile("secret.txt")
+	_ErrLogExit0(err)
+	f("key loaded")
+	keyAPI = string(keyF)
+}
 
 var needUpdateJSON bool
 
@@ -25,7 +33,7 @@ type player struct {
 	Matches     []*match `json:"matches"`
 }
 
-func playersLoadJSONFromFile() {
+func loadPlayersFromFile() {
 	data, err := os.ReadFile(playersJSONPPath)
 	_ErrLogExit0(err)
 
@@ -35,7 +43,7 @@ func playersLoadJSONFromFile() {
 	f("players loaded")
 }
 
-func playersWriteJSONToFile() {
+func writePlayersToFile() {
 	if needUpdateJSON {
 		f("write players")
 		jsonString, _ := json.Marshal(&players)
@@ -84,7 +92,7 @@ func stringToSteamID(str string) (string, string, error) {
 	return "", "", fmt.Errorf("ERROR! stringToSteamID cannot extract steam id")
 }
 
-func userAdd(who, strInfo string) {
+func addPlayer(who, strInfo string) {
 	// Who         string    `json:"who"`
 	// PersonaName string    `json:"persona_name"`
 	// AccountID   string    `json:"account_id"`
@@ -227,7 +235,7 @@ func updatePlayer(steamid64 string) error {
 		players[steamid64].Matches = matchs
 		needUpdateJSON = true
 	} else {
-		userAdd("who", steamid64)
+		addPlayer("who", steamid64)
 	}
 	return nil
 }

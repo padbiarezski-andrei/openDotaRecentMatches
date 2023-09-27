@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-const matchesJSONPPath = "./test/testRecentMatches.json"
+const matchesJSONPPath = "testRecentMatches.json"
 
 type match struct {
 	MatchID    int64 `json:"match_id"`
@@ -37,7 +37,7 @@ type match struct {
 	// PartySize    int   `json:"party_size"`
 }
 
-func matchesFromOpenDotaAPI(steam32 string) []*match {
+func loadMatchesFromOpenDotaAPI(steam32 string) []*match {
 	f("get matches for player fron opendota API")
 	r, err := http.Get("https://api.opendota.com/api/players/" + steam32 + "/recentMatches")
 	_ErrLogExit0(err)
@@ -57,7 +57,7 @@ func matchesFromOpenDotaAPI(steam32 string) []*match {
 	return res
 }
 
-func matchesLoadJSONFromFile() {
+func loadMatchesFromFile() {
 	data, err := os.ReadFile(matchesJSONPPath)
 	_ErrLogExit0(err)
 	for _, p := range players {
@@ -75,7 +75,7 @@ func matchesLoadJSONFromFile() {
 		}
 
 	}
-	// players["77777777777777777"].Matches[0].MatchID = 1234567
+	// players["12345678912345678"].Matches[0].MatchID = 1234567
 	for _, p := range players {
 		fmt.Println(p.Matches)
 		fmt.Println()

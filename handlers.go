@@ -45,12 +45,12 @@ func playersPage(w http.ResponseWriter, r *http.Request) {
 			}
 			who := r.FormValue("who")
 			link := r.FormValue("link")
-			userAdd(who, link)
+			addPlayer(who, link)
 			http.Redirect(w, r, "/players", http.StatusSeeOther)
 		case "mathes":
 			f("players redir -> matches")
 			for _, p := range players {
-				p.Matches = matchesFromOpenDotaAPI(p.SteamID32)
+				p.Matches = loadMatchesFromOpenDotaAPI(p.SteamID32)
 			}
 			http.Redirect(w, r, "/matches", http.StatusSeeOther)
 		case "update":
