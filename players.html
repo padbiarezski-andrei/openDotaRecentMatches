@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<!-- test -->
+<html lang="en">
+
+<head>
+    <title>players</title>
+    <link rel="shortcut icon" href="https://puu.sh/G3RII.png" type="image/png">
+    <link rel="img" type="image/jpg"
+        href="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c4/c4ef81b1a4469235d924578d9f84d9eb6ce1d565_full.jpg">
+    <style>
+        form {
+            text-align: right;
+            color: dimgray;
+        }
+
+        table td,
+        table th {
+            /* border: 1px solid black; */
+            vertical-align: top;
+            text-align: left;
+            padding: 1px;
+        }
+
+        thead {
+            text-align: center;
+            background: #f2f2f2;
+        }
+
+        td span,
+        table th {
+            text-align: center;
+        }
+
+        li {
+            list-style-type: none;
+            /* Убираем маркеры */
+        }
+
+        ul {
+            text-align: left;
+            padding-left: 0px;
+            padding-top: 10px;
+            margin-left: 0;
+            /* Отступ слева в браузере IE и Opera */
+            padding-left: 0;
+            /* Отступ слева в браузере Firefox, Safari, Chrome */
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2
+        }
+
+        .list {
+            float: left;
+            margin: 10 10px;
+        }
+
+        .win {
+            content: "\2022";
+            color: black;
+            font-weight: bold;
+            background-color: rgb(167, 251, 167);
+        }
+
+        .loss {
+            content: "\2022";
+            color: black;
+            font-weight: bold;
+            background-color: rgb(230, 159, 159);
+        }
+
+        #div {
+            text-align: lif;
+            background: green;
+            color: white;
+        }
+
+        .fade-in {
+            animation: fadeIn ease 10s;
+            -webkit-animation: fadeIn ease 10s;
+            -moz-animation: fadeIn ease 10s;
+            -o-animation: fadeIn ease 10s;
+            -ms-animation: fadeIn ease 10s;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @-moz-keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @-webkit-keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @-o-keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @-ms-keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js">
+    </script>
+</head>
+
+<body>
+    <div>
+        <table>
+            <thead>
+                <thead>
+                    <tr>
+                        <form action="/players" method="post">
+                            <th><input type="submit" name="submit" value="update"
+                                    style="float: left; background-color: bisque;"><span>players</span></th>
+                            <th> <input type="submit" name="submit" value="mathes"
+                                    style="float: left; background-color: bisque;"><span>new matches</span></th>
+                            <th><span>add new</span>
+                                <input type="submit" name="submit" value="exit"
+                                    style="float: right; background-color: red;"></th>
+                        </form>
+                    </tr>
+                </thead>
+            </thead>
+            <tbody>
+                {{ $addOnce := true }}
+                {{ range $k, $v := . }}
+                <tr>
+                    <td>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <img class="fade-in" src="{{ $v.AvatarFull }}" alt="{{ $v.PersonaName }}" />
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            <li>Who</li>
+                                            <li>PersonaName</li>
+                                            <li>AccountID</li>
+                                            <li>SteamID</li>
+                                            <li>LastUpdate </li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            <li>{{ $v.Who }}</li>
+                                            <li style="background-color: darkgrey;">{{ $v.PersonaName }}</li>
+                                            <li> <a target="_blank"
+                                                    href="https://www.dotabuff.com/players/{{ $v.SteamID32 }}">
+                                                    {{ $v.SteamID32 }} </a>
+                                            </li>
+                                            <li> <a target="_blank"
+                                                    href="https://steamcommunity.com/profiles/{{ $v.SteamID64 }}">
+                                                    {{ $v.SteamID64 }} </a></li>
+                                            </li>
+                                            <li>[{{ $v.LastUpdate }}]</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td>
+                        <ul>
+                            {{ range $m := $v.Matches }}
+                            {{if $m.RadiantWin}}
+                            <li class="win">
+                                {{else}}
+                            <li class="loss">
+                                {{ end }}
+                                <a target="_blank" href="https://www.dotabuff.com/matches/{{ $m.MatchID }}">
+                                    {{ $m.MatchID }}
+                                </a>
+                            </li>
+                            {{ end }}
+                        </ul>
+                    </td>
+                    {{ if $addOnce }}
+                    {{ $addOnce = false }}
+                    <td rowspan="5">
+                        <form action="/players" method="post">
+                            <div>
+                                <label for="who">Who/name</label>
+                                <input name="who" id="who">
+                            </div>
+                            <div>
+                                <label for="link">any link</label>
+                                <input name="link" id="link">
+                            </div>
+                            <div>
+                                <input type="submit" name="submit" value="add">
+                            </div>
+                        </form>
+                    </td>
+                    {{ else }}
+                    <td colspan="5"></td>
+                    {{ end }}
+                </tr>
+                {{ end }}
+            </tbody>
+        </table>
+        <!-- <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <form action="/players" method="post">
+                            <input type="submit" name="submit" value="mathes"
+                                style="float: left; background-color: bisque;">
+                            <input type="submit" name="submit" value="exit"
+                                style="float: right; background-color: red;">
+                    </td>
+                    </form>
+                </tr> -->
+    </div>
+    <script>
+        $('#GFG_UP').text("Click on button to hide div after 1 sec.");
+
+        function GFG_Fun() {
+            setTimeout(function () {
+                $('#div').fadeOut('fast');
+            }, 1000);
+            $('#GFG_DOWN').text("Div hides after 1 second.");
+        } 
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<!-- test -->
+<html lang="en">
+
+<head>
+    <title>mathes</title>
+    <link rel="shortcut icon" href="https://puu.sh/G3RII.png" type="image/png">
+    <style>
+        p {
+            text-align: center;
+            color: dimgray;
+        }
+
+        table td,
+        table th {
+            border: 1px solid black;
+            vertical-align: top;
+            text-align: left;
+            padding: 1px;
+        }
+
+        thead {
+            text-align: center;
+            background: #f2f2f2;
+        }
+
+        td span,
+        table th {
+            text-align: center;
+        }
+
+        ul {
+            text-align: left;
+            padding-left: 20px;
+            padding-top: 0px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2
+        }
+
+        .win {
+            content: "\2022";
+            color: black;
+            font-weight: bold;
+            background-color: rgb(167, 251, 167);
+        }
+
+        .loss {
+            content: "\2022";
+            color: black;
+            font-weight: bold;
+            background-color: rgb(230, 159, 159);
+        }
+
+        #div {
+            text-align: center;
+            background: green;
+            color: white;
+        }
+
+        .fade-in {
+            animation: fadeIn ease 10s;
+            -webkit-animation: fadeIn ease 10s;
+            -moz-animation: fadeIn ease 10s;
+            -o-animation: fadeIn ease 10s;
+            -ms-animation: fadeIn ease 10s;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @-moz-keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @-webkit-keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @-o-keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @-ms-keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js">
+    </script>
+</head>
+
+<body>
+    <div>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th> <span>persona name/account IDs</span> </th>
+                        <th><span>matches ID</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <form action="/matches" method="post">
+                        <td><input type="submit" name="submit" value="add"
+                                style="float: left; background-color: bisque;"> </td>
+                        <td><input type="submit" name="submit" value="exit"
+                                style="float: right; background-color: red;"></td>
+                    </form>
+                    {{ range $k, $v := .}}
+                    <tr>
+                        <td>
+                            <img class="fade-in" src="{{ .AvatarFull }}" alt="{{ .PersonaName }}" />
+                            <ul>
+                                <li>{{ $v.Who }}</li>
+                                <li style="background-color: darkgrey;">{{ .PersonaName }}</li>
+                                <li> <a target="_blank" href="https://www.dotabuff.com/players/{{ .SteamID32 }}">
+                                        {{ $v.SteamID32 }} </a>
+                                </li>
+                                <li> <a target="_blank" href="https://steamcommunity.com/profiles/{{ .SteamID64 }}">
+                                        {{ $v.SteamID64 }} </a></li>
+                                </li>
+                                <li>[{{ $v.LastUpdate }}]</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th> <span>new</span> </th>
+                                        <th><span>old</span></th>
+                                    </tr>
+                                </thead>
+                                {{ $mtchs := $v.Matches }}
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <ul>
+                                                {{ range $m := $mtchs }}
+                                                {{if $m.RadiantWin}}
+                                                <li class="win">
+                                                    {{else}}
+                                                <li class="loss">
+                                                    {{ end }}
+                                                    <a target="_blank"
+                                                        href="https://www.dotabuff.com/matches/{{ $m.MatchID }}">
+                                                        {{ $m.MatchID }}
+                                                    </a>
+                                                </li>
+                                                {{ end }}
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                {{ range $m := $mtchs }}
+                                                {{if $m.RadiantWin}}
+                                                <li class="win">
+                                                    {{else}}
+                                                <li class="loss">
+                                                    {{ end }}
+                                                    <a target="_blank"
+                                                        href="https://www.dotabuff.com/matches/{{ $m.MatchID }}">
+                                                        {{ $m.MatchID }}
+                                                    </a>
+                                                </li>
+                                                {{ end }}
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    {{ end }}
+                    <tr>
+                        <form action="/matches" method="post">
+                            <td><input type="submit" name="submit" value="add"
+                                    style="float: left; background-color: bisque;">
+                            <td><input type="submit" name="submit" value="exit"
+                                    style="float: right; background-color: red;">
+                        </form>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+    </script>
+</body>
+
+</html>
