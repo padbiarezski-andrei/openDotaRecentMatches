@@ -27,7 +27,7 @@ func main() {
 	http.HandleFunc("/matches", matchesPage)
 	http.HandleFunc("/players", playersPage)
 	f("starting server at :8080")
-	openInBrowser("http://localhost:8080/players")
+	//openInBrowser("http://localhost:8080/players")
 	http.ListenAndServe(":8080", nil)
 	fmt.Scan()
 }
